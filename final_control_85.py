@@ -15,7 +15,7 @@ class move_limo:
         self.BASE_SPEED = 0.85
         self.left_x = 0
         self.right_x = 0
-        self.KP = 0.0084 # 각도 조정을 위한 비례 상수
+        self.KP = 0.0085 # 각도 조정을 위한 비례 상수
         self.yellow_ANGLE = None  # 노란색 차선 조향 각도 초기화
         self.white_ANGLE = None  # 흰색 차선 조향 각도 초기화
         self.white_ratio = 0 
@@ -89,7 +89,7 @@ class move_limo:
              elif self.left_x is not None:
                   #왼쪽 차선만 감지된 경우
                  #self.yellow_ANGLE = self.KP * (130 - self.left_x)
-                 drive.angular.z = -1.85 #self.yellow_ANGLE
+                 drive.angular.z = -2 #self.yellow_ANGLE
                  print("left****************")
                  # print("yellow_ANGLE:", self.yellow_ANGLE)
 
