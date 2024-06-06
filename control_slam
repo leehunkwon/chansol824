@@ -44,34 +44,15 @@ class SLAMControl:
         )
         _, _, robot_yaw = tf.transformations.euler_from_quaternion(quaternion)
 
-        # 벽 인식 로직 (여기서는 간단한 거리 기반 예제)
-        # 지도의 해상도와 원점 위치를 고려하여 로봇의 위치를 맵 좌표로 변환
-        map_resolution = self.map_data.info.resolution
-        map_origin_x = self.map_data.info.origin.position.x
-        map_origin_y = self.map_data.info.origin.position.y
-        map_width = self.map_data.info.width
-        map_height = self.map_data.info.height
-
-        robot_map_x = int((robot_x - map_origin_x) / map_resolution)
-        robot_map_y = int((robot_y - map_origin_y) / map_resolution)
-
         # 주행 로직 (간단한 장애물 회피 예제)
         speed = 0.2
         steer = 0.0
 
-        if robot_map_x < 0 or robot_map_x >= map_width or robot_map_y < 0 or robot_map_y >= map_height:
-            rospy.logwarn("Robot is out of map bounds")
-            return
-
-        # 맵 데이터에서 로봇 주변의 장애물 탐지
-        neighborhood = self.map_data.data[robot_map_y * map_width + robot_map_x - 5: robot_map_y * map_width + robot_map_x + 5]
-
-        if any(cell > 50 for cell in neighborhood):  # 장애물이 근처에 있는 경우
-            speed = 0.0
-            steer = 1.0  # 오른쪽으로 회전 (예제)
-            rospy.loginfo('Obstacle detected, turning right')
-        else:
-            rospy.loginfo('No obstacles, driving forward')
+        # 맵 데이터와 로봇 위치가 제대로 수신되었는지 확인
+        if self.map_data is not None and self.robot_pose is not None:
+            # 벽 인식 로직 (간단한 거리 기반 예제)
+            # 원하는 방향으로 주행하는 예제
+            steer = 0.5  # 오른쪽으로 회전 (예제)
 
         self.cmd_msg.linear.x = speed
         self.cmd_msg.angular.z = steer
