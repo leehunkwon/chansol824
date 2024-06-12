@@ -16,15 +16,24 @@ class WallFollower:
 
         self.target_distance = 0.3  # 원하는 왼쪽 벽까지의 거리
         self.kp = 1.5  # 비례 상수
+        self.max_angular_z = 0.5  # 최대 회전 속도
+        self.min_safe_distance = 0.1  # 충돌 방지를 위한 최소 안전 거리
 
     def laser_callback(self, msg):
         # 왼쪽 벽까지의 거리 측정
-        left_distances = msg.ranges[270:360]  # 왼쪽 90도에 대한 거리
+        left_distances = msg.ranges[180:360]  # 전체 왼쪽에 대한 거리
         avg_left_distance = sum(left_distances) / len(left_distances)
 
         # 로봇의 제어 입력 계산
         error = self.target_distance - avg_left_distance
         angular_z = self.kp * error
+
+        # 회전 속도 제한
+        angular_z = max(-self.max_angular_z, min(self.max_angular_z, angular_z))
+
+        # 안전 거리 체크
+        if avg_left_distance < self.min_safe_distance:
+            angular_z = -self.max_angular_z  # 벽에 가까워질 때는 반대 방향으로 회전
 
         # 로봇 제어 입력 발행
         cmd_vel = Twist()
