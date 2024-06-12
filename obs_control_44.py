@@ -21,8 +21,20 @@ class WallFollower:
 
     def laser_callback(self, msg):
         # 왼쪽 벽까지의 거리 측정
-        left_distances = msg.ranges[180:360]  # 전체 왼쪽에 대한 거리
+        left_distances = msg.ranges[315:359] + msg.ranges[0:45]  # 거의 왼쪽에 대한 거리
         avg_left_distance = sum(left_distances) / len(left_distances)
+
+        # 오른쪽 벽까지의 거리 측정
+        right_distances = msg.ranges[135:225]  # 거의 오른쪽에 대한 거리
+        avg_right_distance = sum(right_distances) / len(right_distances)
+
+        # 오른쪽 벽이 감지되지 않으면 우회전
+        if avg_right_distance > 0.3:
+            cmd_vel = Twist()
+            cmd_vel.linear.x = 0.2  # 일정한 속도로 직진
+            cmd_vel.angular.z = -0.5  # 우회전
+            self.cmd_pub.publish(cmd_vel)
+            return
 
         # 로봇의 제어 입력 계산
         error = self.target_distance - avg_left_distance
