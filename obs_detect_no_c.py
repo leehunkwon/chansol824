@@ -20,7 +20,7 @@ class Obs_detect:
         self.pub_obs_L = rospy.Publisher("/obsL", Bool, queue_size=1)
 
         self.laser_msg = LaserScan()
-        self.rate = rospy.Rate(5)
+        self.rate = rospy.Rate(10)
         self.laser_flag = False
         self.degrees = []
         self.degrees_flag = False
