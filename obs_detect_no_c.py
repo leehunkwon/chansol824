@@ -60,9 +60,9 @@ class Obs_detect:
                     x = n * math.cos(self.degrees[i] * math.pi / 180)
                     y = n * math.sin(self.degrees[i] * math.pi / 180)
                     
-                    if 0.15 < y < 0.45 and 0 < x < 0.4:
+                    if 0.03< y < 0.45 and 0 < x < 0.4:
                         pub_obs_L_list.append(n)
-                    if -0.45 < y < -0.15 and 0 < x < 0.4:
+                    if -0.45 < y < 0 and 0 < x < 0.4:
                         pub_obs_R_list.append(n)
                     if 0 < n < 0.5 and -91 < self.degrees[i] < -89:
                         pub_dist90_R_list.append(n)
