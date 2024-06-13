@@ -30,7 +30,7 @@ class OBS_Control:
         self.kp = 0.01
         self.pre_steer = 0
 
-        self.rate = rospy.Rate(2)
+        self.rate = rospy.Rate(10)
 
     def dist90R_CB(self, data):
         self.dist90R = data.data
