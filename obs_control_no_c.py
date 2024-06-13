@@ -51,7 +51,11 @@ class OBS_Control:
         self.obsL = data.data
 
     def control(self):
-        if self.obsR and not self.obsL:  # following the right wall
+        if self.obsR and not self.obsL:  # 오른쪽 벽을 따라가지만 왼쪽 벽이 없음
+            speed = 0.1
+            steer = 0.8  # 좌회전
+            print('left wall disappeared, turning left')
+        elif self.obsR:  # 오른쪽 벽을 따라가기
             speed = 0.2
             if self.dist90R == 0:
                 speed = 0.0
@@ -65,14 +69,32 @@ class OBS_Control:
                     value = -1
 
                 theta = math.acos(value) * 180 / math.pi
+                print('theta:', theta)
                 steer = (15 - theta) * math.pi / 180 + self.kp * (self.wall_dist - self.dist90R)
-        elif self.obsR and self.obsL:  # turn left
-            speed = 0.1
-            steer = 0.1
-            print('turn left')
-        else:
+                print('steer:', steer)
+            print('following right wall')
+        elif self.obsL:  # 왼쪽 벽을 따라가기
+            speed = 0.2
+            if self.dist90L == 0:
+                speed = 0.0
+                steer = self.pre_steer
+                print('dist90L = 0')
+            else:
+                value = self.dist90L / self.dist75L
+                if value > 1:
+                    value = 1
+                elif value < -1:
+                    value = -1
+
+                theta = math.acos(value) * 180 / math.pi
+                print('theta:', theta)
+                steer = (theta - 15) * math.pi / 180 + self.kp * (self.wall_dist - self.dist90L)
+                print('steer:', steer)
+            print('following left wall')
+        else:  # 양쪽 벽이 없을 때 정지
             speed = 0
             steer = 0
+            print('no conditions met, stopping')
 
         self.cmd_msg.linear.x = speed
         self.cmd_msg.angular.z = steer
