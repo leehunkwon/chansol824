@@ -51,12 +51,15 @@ class OBS_Control:
         self.obsL = data.data
 
     def control(self):
-        if self.dist90L == 0.5:  # dist90L 값이 측정되지 않은 경우
+        if self.dist90L == 0.5 and self.dist90R == 0.5:  # 양쪽 센서 값이 모두 측정되지 않은 경우
+            steer = 0.0  # 방향을 유지
+            speed = 0.1  # 속도를 낮춤
+        elif self.dist90L == 0.5:  # dist90L 값이 측정되지 않은 경우
             steer = -1.0  # 좌회전 명령
-            speed = 0.2  # 속도 설정
+            speed = 0.1  # 속도 설정
         elif self.dist90R == 0.5:  # dist90R 값이 측정되지 않은 경우
             steer = 1.0  # 우회전 명령
-            speed = 0.2  # 속도 설정
+            speed = 0.1  # 속도 설정
         else:
             # dist90L 값 기반 PID 제어
             error = self.dist90L - self.wall_dist  # 오차 계산
