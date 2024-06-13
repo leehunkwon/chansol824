@@ -64,13 +64,13 @@ class Obs_detect:
                         pub_obs_L_list.append(n)
                     if -0.45 < y < 0 and 0 < x < 0.4:
                         pub_obs_R_list.append(n)
-                    if 0 < n < 0.5 and -91 < self.degrees[i] < -89:
+                    if 0 < n < 0.5 and -91.5 < self.degrees[i] < -88.5:
                         pub_dist90_R_list.append(n)
-                    if 0 < n < 0.5 and -76 < self.degrees[i] < -74:
+                    if 0 < n < 0.5 and -76.5 < self.degrees[i] < -73.5:
                         pub_dist75_R_list.append(n)
-                    if 0 < n < 0.5 and 89 < self.degrees[i] < 91:
+                    if 0 < n < 0.5 and 88.5 < self.degrees[i] < 91.5:
                         pub_dist90_L_list.append(n)
-                    if 0 < n < 0.5 and 74 < self.degrees[i] < 76:
+                    if 0 < n < 0.5 and 73.5 < self.degrees[i] < 76.5:
                         pub_dist75_L_list.append(n)
 
                 rospy.loginfo("거리 및 장애물 감지 결과를 퍼블리싱합니다.")
