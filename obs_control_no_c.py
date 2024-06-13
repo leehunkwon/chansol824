@@ -22,15 +22,15 @@ class OBS_Control:
         self.cmd_msg = Twist()
         self.obsR = False
         self.obsL = False
-        self.dist90R = 0.5
-        self.dist90L = 0.5
-        self.dist75R = 0.5
-        self.dist75L = 0.5
+        self.dist90R = 1
+        self.dist90L = 1
+        self.dist75R = 1
+        self.dist75L = 1
         self.wall_dist = 0.2
-        self.kp = 1
+        self.kp = 2
         self.pre_steer = 0
 
-        self.rate = rospy.Rate(10)
+        self.rate = rospy.Rate(5)
 
     def dist90R_CB(self, data):
         self.dist90R = data.data
@@ -51,20 +51,21 @@ class OBS_Control:
         self.obsL = data.data
 
     def control(self):
-        if self.dist90L == 0.5 and self.dist90R == 0.5:  # 양쪽 센서 값이 모두 측정되지 않은 경우
+        if self.dist90L == 1 and self.dist90R == 1:  # 양쪽 센서 값이 모두 측정되지 않은 경우
             steer = 0.0  # 방향을 유지
             speed = 0.1  # 속도를 낮춤
-        elif self.dist90L == 0.5:  # dist90L 값이 측정되지 않은 경우
+        elif self.dist90L == 1 and self.dist75L == 1:  # dist90L 값이 측정되지 않은 경우
             steer = 1.0  # 좌회전 명령
-            speed = 0.1  # 속도 설정
-        elif self.dist90R == 0.5:  # dist90R 값이 측정되지 않은 경우
+            speed = 0.2  # 속도 설정
+        elif self.dist90R == 1:  # dist90R 값이 측정되지 않은 경우
             steer = -1.0  # 우회전 명령
-            speed = 0.1  # 속도 설정
+            speed = 0.2  # 속도 설정
         else:
-            # dist90L 값 기반 PID 제어
-            error = self.dist90L - self.wall_dist  # 오차 계산
+            # dist75L 값 기반 PID 제어
+            error = self.dist75L - self.wall_dist  # 오차 계산
             steer = self.kp * error  # PID 제어에 따른 조향각 계산
-            speed = 0.4  # 기본 속도 설정
+            speed = 0.3  # 기본 속도 설정
+            print("steer:", steer)
 
             # 조향각 제한
             if steer > 1.0:
