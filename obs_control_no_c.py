@@ -27,7 +27,7 @@ class OBS_Control:
         self.dist75R = 0.5
         self.dist75L = 0.5
         self.wall_dist = 0.2
-        self.kp = 0.01
+        self.kp = 1
         self.pre_steer = 0
 
         self.rate = rospy.Rate(10)
@@ -55,10 +55,10 @@ class OBS_Control:
             steer = 0.0  # 방향을 유지
             speed = 0.1  # 속도를 낮춤
         elif self.dist90L == 0.5:  # dist90L 값이 측정되지 않은 경우
-            steer = -1.0  # 좌회전 명령
+            steer = 1.0  # 좌회전 명령
             speed = 0.1  # 속도 설정
         elif self.dist90R == 0.5:  # dist90R 값이 측정되지 않은 경우
-            steer = 1.0  # 우회전 명령
+            steer = -1.0  # 우회전 명령
             speed = 0.1  # 속도 설정
         else:
             # dist90L 값 기반 PID 제어
