@@ -52,11 +52,11 @@ class OBS_Control:
 
     def control(self):
         if self.obsR and not self.obsL:  # 오른쪽 벽을 따라가지만 왼쪽 벽이 없음
-            speed = 0.1
+            speed = 0.3
             steer = 0.8  # 좌회전
             print('left wall disappeared, turning left')
         elif self.obsR:  # 오른쪽 벽을 따라가기
-            speed = 0.2
+            speed = 0.3
             if self.dist90R == 0:
                 speed = 0.0
                 steer = self.pre_steer
@@ -74,7 +74,7 @@ class OBS_Control:
                 print('steer:', steer)
             print('following right wall')
         elif self.obsL:  # 왼쪽 벽을 따라가기
-            speed = 0.2
+            speed = 0.3
             if self.dist90L == 0:
                 speed = 0.0
                 steer = self.pre_steer
@@ -92,7 +92,7 @@ class OBS_Control:
                 print('steer:', steer)
             print('following left wall')
         else:  # 양쪽 벽이 없을 때 정지
-            speed = 0
+            speed = 0.3
             steer = 0
             print('no conditions met, stopping')
 
