@@ -20,7 +20,7 @@ class Obs_detect:
         self.pub_obs_L = rospy.Publisher("/obsL", Bool, queue_size=1)
 
         self.laser_msg = LaserScan()
-        self.rate = rospy.Rate(10)
+        self.rate = rospy.Rate(5)
         self.laser_flag = False
         self.degrees = []
         self.degrees_flag = False
@@ -57,44 +57,44 @@ class Obs_detect:
                     x = n * math.cos(self.degrees[i] * math.pi / 180)
                     y = n * math.sin(self.degrees[i] * math.pi / 180)
                     
-                    if 0.03 < y < 0.45 and 0 < x < 0.4:
+                    if 0.03 < y < 0.6 and 0 < x < 0.4:
                         pub_obs_L_list.append(n)
-                    if -0.45 < y < 0 and 0 < x < 0.4:
+                    if -0.6 < y < 0.02 and 0 < x < 0.4:
                         pub_obs_R_list.append(n)
-                    if 0 < n < 0.5 and -91.5 < self.degrees[i] < -89.5:
+                    if 0 < n < 1 and -91.5 < self.degrees[i] < -89.5:
                         pub_dist90_R_list.append(n)
-                    if 0 < n < 0.5 and -76.5 < self.degrees[i] < -74.5:
+                    if 0 < n < 1 and -76.5 < self.degrees[i] < -74.5:
                         pub_dist75_R_list.append(n)
-                    if 0 < n < 0.5 and 89.5 < self.degrees[i] < 91.5:
+                    if 0 < n < 1 and 89.5 < self.degrees[i] < 91.5:
                         pub_dist90_L_list.append(n)
-                    if 0 < n < 0.5 and 74.5 < self.degrees[i] < 76.5:
+                    if 0 < n < 1 and 44.5 < self.degrees[i] < 46.5:
                         pub_dist75_L_list.append(n)
 
                 if pub_dist90_R_list:
                     dist90R = sum(pub_dist90_R_list) / len(pub_dist90_R_list)
                 else:
-                    dist90R = 0.5
+                    dist90R = 1
                 self.pub_dist90_R.publish(dist90R)
                 print("/dist90R:", dist90R)
 
                 if pub_dist75_R_list:
                     dist75R = sum(pub_dist75_R_list) / len(pub_dist75_R_list)
                 else:
-                    dist75R = 0.5
+                    dist75R = 1
                 self.pub_dist75_R.publish(dist75R)
                 print("/dist75R:", dist75R)
 
                 if pub_dist90_L_list:
                     dist90L = sum(pub_dist90_L_list) / len(pub_dist90_L_list)
                 else:
-                    dist90L = 0.5
+                    dist90L = 1
                 self.pub_dist90_L.publish(dist90L)
                 print("/dist90L:", dist90L)
 
                 if pub_dist75_L_list:
                     dist75L = sum(pub_dist75_L_list) / len(pub_dist75_L_list)
                 else:
-                    dist75L = 0.5
+                    dist75L = 1
                 self.pub_dist75_L.publish(dist75L)
                 print("/dist75L:", dist75L)
 
