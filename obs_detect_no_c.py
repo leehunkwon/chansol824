@@ -63,11 +63,11 @@ class Obs_detect:
                         pub_obs_R_list.append(n)
                     if 0 < n < 1 and -91.5 < self.degrees[i] < -89.5:
                         pub_dist90_R_list.append(n)
-                    if 0 < n < 1 and -76.5 < self.degrees[i] < -74.5:
+                    if 0 < n < 0.5 and -76.5 < self.degrees[i] < -74.5:
                         pub_dist75_R_list.append(n)
                     if 0 < n < 1 and 89.5 < self.degrees[i] < 91.5:
                         pub_dist90_L_list.append(n)
-                    if 0 < n < 1 and 44.5 < self.degrees[i] < 46.5:
+                    if 0 < n < 1 and 70.5 < self.degrees[i] < 72.5:
                         pub_dist75_L_list.append(n)
 
                 if pub_dist90_R_list:
@@ -80,7 +80,7 @@ class Obs_detect:
                 if pub_dist75_R_list:
                     dist75R = sum(pub_dist75_R_list) / len(pub_dist75_R_list)
                 else:
-                    dist75R = 1
+                    dist75R = 0.5
                 self.pub_dist75_R.publish(dist75R)
                 print("/dist75R:", dist75R)
 
